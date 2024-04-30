@@ -28,11 +28,14 @@ export default function CoverImage({
   );
 
   return (
-    <div className="sm:mx-0">
+    <div className="w-full h-full overflow-hidden">
       {slug ? (
+        <div className="hover:scale-110 duration-500 hover:opacity-75">
+
         <Link href={`/posts/${slug}`} aria-label={title}>
           {image}
         </Link>
+        </div>
       ) : (
         image
       )}

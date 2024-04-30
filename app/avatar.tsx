@@ -18,7 +18,7 @@ export default function Avatar({
           src={picture?.url}
         />
       </div>
-      <div className="text-xl font-bold">{name}</div>
+      <div className="text-xl font-medium">{name}</div>
     </div>
   );
 }

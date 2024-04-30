@@ -43,7 +43,7 @@ async function fetchGraphQL(query: string, preview = false): Promise<any> {
       },
       body: JSON.stringify({ query }),
       next: { tags: ["posts"] },
-    },
+    }
   ).then((response) => response.json());
 }
 
@@ -55,6 +55,24 @@ function extractPostEntries(fetchResponse: any): any[] {
   return fetchResponse?.data?.postCollection?.items;
 }
 
+function extractNavigation(fetchRepsonse: any): any[] {
+  return fetchRepsonse?.data?.navigationCollection?.items;
+}
+
+export async function getAllNavigation(isDraftMode: boolean): Promise<any[]> {
+  const entries = await fetchGraphQL(
+    `query {
+      navigationCollection(order:sys_publishedAt_ASC, limit: 10) {
+        items {
+          name
+          link
+        }
+      }
+    }`
+  );
+  return extractNavigation(entries);
+}
+
 export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
   const entry = await fetchGraphQL(
     `query {
@@ -64,7 +82,7 @@ export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
         }
       }
     }`,
-    true,
+    true
   );
   return extractPost(entry);
 }
@@ -72,7 +90,8 @@ export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
 export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
   const entries = await fetchGraphQL(
     `query {
-      postCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
+      postCollection 
+      (where: { slug_exists: true }, order: date_DESC, preview: ${
         isDraftMode ? "true" : "false"
       }) {
         items {
@@ -80,14 +99,14 @@ export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
         }
       }
     }`,
-    isDraftMode,
+    isDraftMode
   );
   return extractPostEntries(entries);
 }
 
 export async function getPostAndMorePosts(
   slug: string,
-  preview: boolean,
+  preview: boolean
 ): Promise<any> {
   const entry = await fetchGraphQL(
     `query {
@@ -99,7 +118,7 @@ export async function getPostAndMorePosts(
         }
       }
     }`,
-    preview,
+    preview
   );
   const entries = await fetchGraphQL(
     `query {
@@ -111,10 +130,13 @@ export async function getPostAndMorePosts(
         }
       }
     }`,
-    preview,
+    preview
   );
   return {
     post: extractPost(entry),
     morePosts: extractPostEntries(entries),
+    // about:
+    // footer:
+    // navbar:
   };
 }

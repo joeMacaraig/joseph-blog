@@ -1,3 +1,11 @@
+# Joseph Bryan Blog
+
+Creating a blog website using contentful. My objective with this project is to have every page / component be rendered as a tempalte from contentful.
+
+## 👨🏽‍💻 Current Stack: 
+
+Next.JS, React.JS, Contentful
+
 # A statically generated blog example using Next.js and Contentful
 
 This example showcases Next.js's [Static Generation](https://nextjs.org/docs/basic-features/pages) feature using [Contentful](https://www.contentful.com/) as the data source.
